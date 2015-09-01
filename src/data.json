@@ -1,0 +1,14 @@
+{ 
+	1: {"task": "go to your home directory", "seconds": 20},
+	2: {"task":"create directory call it git_rocks", "seconds": 30},
+	3: {"task":"cd into the new directory", "seconds": 20},
+	4: {"task":"create an empty file name it Readme", "seconds": 50},
+	5: {"task":"add the output of the command `date` as the first line to your Readme (without copy/paste)", "seconds": 80},
+	6: {"task":"Make git_rocks into a git repo", "seconds": 40},
+	7: {"task":"create your first commit that has the Readme file", "seconds": 50},
+	8: {"task":"create a public github repo git_rocks", "seconds": 90},
+	9: {"task":"add it as your remote to the local git_rocks", "seconds": 50},
+	10: {"task":"push the commit you have to github", "seconds": 50},
+	11: {"task":"in github, add hello from github to the Readme file", "seconds": 90},
+	12: {"task":"pull the changes you made in github to your local git_rocks", "seconds": 50},
+}
