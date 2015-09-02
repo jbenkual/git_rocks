@@ -1,6 +1,8 @@
 var appData;
 var maxTime;
-var curTime;
+var curTime = 0;
+var totTime = 0;
+var totMaxTime = 0;
 var intervalTracker;
 var paused = true;
 var currentStep = 0;
@@ -11,20 +13,30 @@ function gbid(input) {
 
 function nextTask () {
     if (currentStep < appData.data.length) {
-        $('#task').text(appData.data[currentStep].instructions);
+        gbid('task').textContent = appData.data[currentStep].instructions;
         maxTime = appData.data[currentStep].seconds;
+        totMaxTime += maxTime;
+        totTime += maxTime - curTime;
         curTime = maxTime;
         gbid('time').textContent = (curTime.toString());
+        
+        var color = randomColor();
+        var inverted = invertColor(color);
+        document.body.style.backgroundColor =  color;
+        document.body.style.color = inverted;
     }
     else {
-        $('#task').text("Time is up!");
+        startButton();
+        gbid('task').textContent = ("You finished using " + Math.floor((totTime/totMaxTime) * 100) + "% of the time");
+        gbid('next').style.visibility = "hidden";
+        gbid('time').style.visibility = "hidden";
         window.clearInterval(intervalTracker);
     }
     currentStep++;
 }
 
 function setTimer () {
-    intervalTracker = window.setInterval(updateTimer, 1000);
+    intervalTracker = window.setInterval(updateTimer, 100);
 }
 
 
@@ -60,14 +72,14 @@ function getjson (input) {
 
 getjson('data2.json');
 
-$('#start').click(function () {
+function startButton () {
     if (!paused) {
-        $(this).html('Start');
+        gbid('start').textContent = ('Start');
         paused = true;
         clearInterval(intervalTracker);
     }
     else {
-        $(this).html('Pause');
+        gbid('start').textContent = ('Pause');
         paused = false;
         if (currentStep === 0) {
             currentStep++;
@@ -75,4 +87,27 @@ $('#start').click(function () {
         }
         setTimer();
     }
-});
+};
+
+function nextButton () {
+    nextTask();
+}
+
+function invertColor(hexTripletColor) {
+    var color = hexTripletColor;
+    color = color.substring(1);           // remove #
+    color = parseInt(color, 16);          // convert to integer
+    color = 0xFFFFFF ^ color;             // invert three bytes
+    color = color.toString(16);           // convert to hex
+    color = ("000000" + color).slice(-6); // pad with leading zeros
+    color = "#" + color;                  // prepend #
+    return color;
+}
+
+function randomColor() {
+    var color = Math.random();
+    for(var i = 0; i < 6; i++) {
+        color *= 16;
+    }
+    return "#"+Math.floor(color).toString(16);
+}
