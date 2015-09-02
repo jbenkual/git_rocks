@@ -162,9 +162,14 @@ gulp.task('archive', function (done) {
 
 gulp.task('build', function (done) {
     runSequence(
-        ['clean', 'lint:js'],
+        ['clean'], //, 'lint:js'
         'copy',
     done);
 });
 
+gulp.task('watch', function() {
+    gulp.watch('src/**', ['build']);
+});
+
 gulp.task('default', ['build']);
+
