@@ -5,34 +5,44 @@ var intervalTracker;
 var paused = true;
 var currentStep = 0;
 
+function gbid(input) {
+    return document.getElementById(input);
+}
+
 function nextTask () {
-    console.log(appData);
-    console.log(appData.data.length)
-    console.log(appData.data[currentStep])
     if (currentStep < appData.data.length) {
-        $('#task').html(appData.data[currentStep].instructions);
+        $('#task').text(appData.data[currentStep].instructions);
+        maxTime = appData.data[currentStep].seconds;
+        curTime = maxTime;
+        gbid('time').textContent = (curTime.toString());
     }
     else {
+        $('#task').text("Time is up!");
         window.clearInterval(intervalTracker);
     }
     currentStep++;
 }
 
 function setTimer () {
-    intervalTracker = window.setInterval(nextTask, 1000);
-
+    intervalTracker = window.setInterval(updateTimer, 1000);
 }
 
+
+function updateTimer () {
+    if(curTime < 1) {
+        nextTask();
+    }
+    curTime--;
+    gbid('time').textContent = (curTime.toString());
+}
 function getjson (input) {
     var request = new XMLHttpRequest();
-    console.log(input);
     request.open('GET', input, true);
 
     request.onload = function() {
         if (request.status >= 200 && request.status < 400) {
             // Success!
             var temp = JSON.parse(request.responseText);
-            console.log(temp);
             appData = temp;
             return temp;
         } else {
@@ -50,13 +60,11 @@ function getjson (input) {
 
 getjson('data2.json');
 
-curTime = maxTime;
-$('#time').html(60);
-
 $('#start').click(function () {
     if (!paused) {
         $(this).html('Start');
         paused = true;
+        clearInterval(intervalTracker);
     }
     else {
         $(this).html('Pause');
@@ -65,5 +73,6 @@ $('#start').click(function () {
             currentStep++;
             nextTask();
         }
+        setTimer();
     }
 });

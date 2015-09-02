@@ -91,21 +91,30 @@ textarea {
 
 
 h1 {
-    margin: 15%;
-    margin-bottom: 0%;
-    font-size: 5vw;
+    /*margin: 10%;
+    margin-bottom: 0%;*/
+    font-size: 8vw;
+    text-align: center;
 }
 
 #time {
+    /*margin-top: 0;
+    margin-left: 40%;*/
+    font-size: 12vw;
     margin-top: 0;
-    margin-left: 40%;
-    font-size: 10vw;
+    margin-bottom: 0;
 }
 
 .btn {
     margin-top: 10px;
-    margin-left: 39%;
-    padding: 40px 40px;
+    /*margin-top: 10px;
+    margin-left: 39%;*/
+    padding: 4vw 4vw;
+}
+
+.buttonContainer {
+    text-align: center;
+    margin-top: 0;
 }
 
 
